@@ -1,0 +1,487 @@
+/*
+Theme Name: taeho's Light Core theme
+Theme URI: https://blogger.pe.kr
+Author: taeho
+Author URI: https://blogger.pe.kr
+Description: 가볍고 작고 빠른 고성능 맞춤형 워드프레스 테마. (Lightweight, small, and fast core theme)
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: taehos-light-core
+*/
+
+/* 글로벌 기본 스타일 */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-y: scroll; /* 스크롤바 유무에 따른 레이아웃 흔들림 방지 */
+    overflow-x: hidden; /* 모바일 가로 화면 밖으로 삐져나가는 현상 방지 */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 모바일 가로 화면 밖으로 삐져나가는 현상 방지 */
+    font-family: sans-serif; /* OMGF 최적화를 위한 시스템 폰트 및 구글 폰트 대비 */
+    background-color: #ffffff;
+    color: #333;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 미디어 요소 반응형 처리 */
+embed,
+iframe,
+object,
+video {
+    max-width: 100%;
+}
+
+/* 테이블 반응형 처리 */
+table {
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+/* 사이드바 스타일 */
+.widget-area {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.widget {
+    margin-bottom: 30px;
+}
+
+/* 위젯 내부의 리스트 여백 초기화 */
+.widget ul,
+.widget ol {
+    list-style: none; /* 기본 점(bullet) 제거 (필요시 'disc' 등 유지 가능) */
+    margin: 0;
+    padding: 0; /* 왼쪽 여백 초기화 */
+}
+
+.widget ul li,
+.widget ol li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.widget ul li:last-child,
+.widget ol li:last-child {
+    border-bottom: none;
+}
+
+/* 네비게이션 가로 정렬 */
+.main-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.main-navigation li {
+    margin: 0 15px;
+}
+
+.main-navigation a {
+    display: block;
+    padding: 10px 15px; /* 배경 반전시 보기 좋도록 좌우 패딩 추가 */
+    border-radius: 4px; /* 배경 반전시 모서리 둥글게 */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* 선택된(현재) 메뉴 항목 색상 반전 */
+.main-navigation .current-menu-item > a,
+.main-navigation .current_page_item > a {
+    background-color: #333;
+    color: #fff;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.site-header {
+    background-color: #ffffff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.site-title {
+    margin: 0;
+    word-break: break-all;
+    overflow-wrap: break-word;
+}
+
+.site-title a {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.site-description {
+    margin-top: 5px;
+    font-size: 1rem;
+    color: #666;
+    word-break: keep-all;
+}
+
+.site-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+/* 모바일 뷰어 반응형 제어 (스택 구조 전환) */
+@media (max-width: 768px) {
+    .site-container {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 15px !important;
+        gap: 20px !important;
+    }
+    
+    .site-header {
+        padding: 15px !important;
+    }
+    
+    .main-navigation {
+        position: relative;
+    }
+
+    /* 좌/우 끝 그라데이션 (메뉴가 더 있음을 암시) */
+    .main-navigation::before,
+    .main-navigation::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 40px;
+        pointer-events: none; /* 그라데이션 영역 터치(스와이프) 방해 금지 */
+        opacity: 0; /* 기본적으로 숨기고 자바스크립트로 제어 */
+        transition: opacity 0.3s ease;
+    }
+
+    .main-navigation::before {
+        left: 0;
+        background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .main-navigation::after {
+        right: 0;
+        background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    /* 자바스크립트로 클래스가 추가되면 보이도록 설정 */
+    .main-navigation.can-scroll-left::before {
+        opacity: 1;
+    }
+
+    .main-navigation.can-scroll-right::after {
+        opacity: 1;
+    }
+
+    .main-navigation ul {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch; /* 부드러운 터치 스크롤 */
+        padding: 5px 0;
+        /* 스크롤바 숨기기 */
+        -ms-overflow-style: none; /* IE, Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .main-navigation ul::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .main-navigation li {
+        margin: 0 10px;
+        flex-shrink: 0; /* 메뉴 항목이 찌그러지거나 줄바꿈되지 않도록 고정 */
+    }
+}
+
+/* 코드 블록 및 인라인 코드 스타일링 */
+code,
+.wp-block-code code {
+    background-color: #f5f5f5;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Malgun Gothic', monospace;
+    font-size: 0.9em;
+    color: #d63384; /* 포인트 색상 */
+    border: 1px solid #e2e2e2; /* 테마 기본 테두리 색상과 통일 */
+    word-break: break-word;
+}
+
+pre,
+.wp-block-code {
+    background-color: #f9f9f9; /* 밝은 테마에 어울리는 배경 */
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    border: 1px solid #e2e2e2;
+    margin-bottom: 20px;
+    font-family: 'Consolas', 'Malgun Gothic', monospace;
+}
+
+pre code,
+.wp-block-code code {
+    background-color: transparent;
+    padding: 0;
+    color: #333333; /* 밝은 배경에 맞는 기본 텍스트 색상 */
+    border: none;
+    border-radius: 0;
+    font-family: inherit;
+}
+
+/* 워드프레스 내부 링크(Embed) 박스를 본문 폭에 맞춰 가로로 길게 표시 */
+figure.wp-block-embed,
+figure.wp-block-embed-wordpress {
+    width: 80%;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+iframe.wp-embedded-content {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* 댓글 폼 스타일링 */
+#respond {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    margin-top: 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+#respond .comment-reply-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+#respond label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+#respond input[type="text"],
+#respond input[type="email"],
+#respond input[type="url"],
+#respond textarea {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+#respond input[type="text"]:focus,
+#respond input[type="email"]:focus,
+#respond input[type="url"]:focus,
+#respond textarea:focus {
+    border-color: #007cba;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: none;
+}
+
+#respond textarea {
+    resize: vertical;
+    vertical-align: top;
+    min-height: 60px;
+}
+
+.comment-form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.comment-form-row p {
+    flex: 1;
+    margin: 0;
+}
+
+.comment-form-comment,
+.comment-form-url {
+    margin: 0 0 20px 0;
+}
+
+#respond .form-submit {
+    margin-top: 30px;
+    text-align: right;
+    margin-bottom: 0;
+}
+
+#respond .submit {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 35px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#respond .submit:hover {
+    background-color: #007cba;
+}
+
+/* 모바일 화면 대응 */
+@media (max-width: 600px) {
+    .comment-form-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+    #respond {
+        padding: 20px;
+    }
+}
+
+/* 댓글 목록 디자인 */
+.comment-list {
+    list-style: none;
+    margin: 40px 0 0 0;
+    padding: 0;
+}
+
+.comment-list .comment {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.comment-list .comment:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* 작성자 정보 및 프로필 묶음 */
+.comment-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.comment-author .avatar {
+    border-radius: 50%; /* 프로필 사진 둥글게 */
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+}
+
+.comment-author .fn {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    font-style: normal;
+}
+
+.comment-author .says {
+    display: none; /* "says:" 숨김 처리 */
+}
+
+/* 날짜 등 메타 데이터 */
+.comment-meta, .comment-metadata {
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    padding-left: 60px; /* 프로필 사진 너비 + 여백만큼 들여쓰기 */
+}
+
+.comment-meta a, .comment-metadata a {
+    color: #888;
+    text-decoration: none;
+}
+
+.comment-meta a:hover, .comment-metadata a:hover {
+    color: #007cba;
+}
+
+/* 댓글 본문 */
+.comment-content, .comment > p {
+    line-height: 1.6;
+    color: #444;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    padding-left: 60px; /* 프로필 사진 너비 + 여백만큼 들여쓰기 */
+}
+
+.comment-content p:last-child, .comment > p:last-child {
+    margin-bottom: 0;
+}
+
+/* 답글 버튼 */
+.reply {
+    padding-left: 60px; /* 프로필 사진 너비 + 여백만큼 들여쓰기 */
+    margin-top: 15px;
+}
+
+.reply a {
+    display: inline-block;
+    background-color: #f1f1f1;
+    color: #555;
+    padding: 6px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.reply a:hover {
+    background-color: #007cba;
+    color: #fff;
+}
+
+/* 대댓글(답글) 들여쓰기 디자인 */
+.comment-list .children {
+    list-style: none;
+    margin: 30px 0 0 0;
+    padding-left: 30px;
+    border-left: 3px solid #f1f1f1;
+}
+
+/* 모바일 화면 대응: 댓글 들여쓰기 제거 */
+@media (max-width: 600px) {
+    .comment-meta, .comment-metadata, .comment-content, .comment > p, .reply {
+        padding-left: 0; /* 모바일에서는 사진 아래로 본문이 내려오게 설정 */
+    }
+    
+    .comment-author .avatar {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .comment-list .children {
+        padding-left: 15px;
+    }
+}
