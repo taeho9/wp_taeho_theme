@@ -10,8 +10,24 @@
     <footer id="colophon" class="site-footer">
         <div class="site-info">
             <?php
-            $current_year = date( 'Y' );
-            printf( esc_html__( '© 2008 - %s Created by taeho. All rights reserved.', 'taehos-light-core' ), esc_html( $current_year ) );
+            $start_year     = get_theme_mod( 'footer_start_year', 2008 );
+            $current_year   = date( 'Y' );
+            $copyright_type = get_theme_mod( 'footer_copyright_type', 'sample1' );
+            $site_title     = get_bloginfo( 'name' );
+
+            if ( 'sample1' === $copyright_type ) {
+                $copyright_text = sprintf( 'Created by %s. All rights reserved.', $site_title );
+            } elseif ( 'sample2' === $copyright_type ) {
+                $copyright_text = sprintf( 'Copyright %s. All rights reserved.', $site_title );
+            } else {
+                $copyright_text = get_theme_mod( 'footer_custom_copyright', 'Created by taeho. All rights reserved.' );
+            }
+
+            if ( (int) $start_year === (int) $current_year ) {
+                printf( esc_html__( '© %1$s %2$s', 'taehos-light-core' ), esc_html( $start_year ), esc_html( $copyright_text ) );
+            } else {
+                printf( esc_html__( '© %1$s - %2$s %3$s', 'taehos-light-core' ), esc_html( $start_year ), esc_html( $current_year ), esc_html( $copyright_text ) );
+            }
             ?>
         </div>
     </footer>

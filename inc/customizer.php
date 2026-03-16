@@ -6,6 +6,8 @@
  */
 
 function taeho_theme_customize_register( $wp_customize ) {
+    $wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
     // 레이아웃 설정 패널
     $wp_customize->add_section( 'taeho_layout_section', array(
         'title'      => __( 'Layout Settings', 'taehos-light-core' ),
@@ -338,6 +340,58 @@ function taeho_theme_customize_register( $wp_customize ) {
             return 'default' === $control->manager->get_setting( 'search_display_mode' )->value();
         },
     ) );
+
+    // 푸터 설정 패널
+    $wp_customize->add_section( 'taeho_footer_section', array(
+        'title'      => __( '푸터(Footer) 설정', 'taehos-light-core' ),
+        'priority'   => 70,
+    ) );
+
+    // 블로그 개설 연도
+    $wp_customize->add_setting( 'footer_start_year', array(
+        'default'           => 2008,
+        'sanitize_callback' => 'absint',
+    ) );
+    $wp_customize->add_control( 'footer_start_year', array(
+        'label'       => __( '블로그 첫 개설 연도', 'taehos-light-core' ),
+        'section'     => 'taeho_footer_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 1990,
+            'max'  => date( 'Y' ),
+            'step' => 1,
+        ),
+    ) );
+
+    // Copyright 문구 타입
+    $wp_customize->add_setting( 'footer_copyright_type', array(
+        'default'           => 'sample1',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+    $wp_customize->add_control( 'footer_copyright_type', array(
+        'label'       => __( 'Copyright 문구 선택', 'taehos-light-core' ),
+        'section'     => 'taeho_footer_section',
+        'type'        => 'radio',
+        'choices'     => array(
+            'sample1' => __( 'Created by [사이트이름]. All rights reserved.', 'taehos-light-core' ),
+            'sample2' => __( 'Copyright [사이트이름]. All rights reserved.', 'taehos-light-core' ),
+            'custom'  => __( '직접 입력', 'taehos-light-core' ),
+        ),
+    ) );
+
+    // 직접 입력한 Copyright 문구
+    $wp_customize->add_setting( 'footer_custom_copyright', array(
+        'default'           => 'Created by taeho. All rights reserved.',
+        'sanitize_callback' => 'wp_kses_post',
+    ) );
+    $wp_customize->add_control( 'footer_custom_copyright', array(
+        'label'       => __( '직접 입력할 Copyright 문구', 'taehos-light-core' ),
+        'section'     => 'taeho_footer_section',
+        'type'        => 'text',
+        'active_callback' => function( $control ) {
+            return 'custom' === $control->manager->get_setting( 'footer_copyright_type' )->value();
+        },
+    ) );
 }
 add_action( 'customize_register', 'taeho_theme_customize_register' );
 
@@ -404,8 +458,8 @@ function taeho_theme_dynamic_css() {
         .site-footer {
             max-width: {$container_width}px;
             margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 0;
+            padding-right: 0;
             box-sizing: border-box;
         }
         .site-container {
@@ -414,9 +468,22 @@ function taeho_theme_dynamic_css() {
             display: grid;
             grid-template-columns: 1fr {$sidebar_width}px;
             gap: {$gap}px;
-            padding: 0 20px;
+            padding: 0;
             box-sizing: border-box;
         }
+
+        @media (max-width: " . ($container_width + 40) . "px) {
+            .site-header,
+            .site-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .site-container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
         .main-navigation {
             background-color: {$menu_bg_color};
             border-radius: 4px; /* 옵션: 배경색이 들어갔을 때 모서리를 둥글게 */
@@ -478,3 +545,11 @@ function taeho_theme_dynamic_css() {
     wp_add_inline_style( 'taehos-light-core-style', $dynamic_style );
 }
 add_action( 'wp_enqueue_scripts', 'taeho_theme_dynamic_css' );
+
+/**
+ * 실시간 커스터마이저 미리보기를 위한 자바스크립트 등록
+ */
+function taeho_theme_customize_preview_js() {
+    wp_enqueue_script( 'taehos-light-core-customizer', get_template_directory_uri() . '/js/customize-preview.js', array( 'customize-preview' ), '1.0.0', true );
+}
+add_action( 'customize_preview_init', 'taeho_theme_customize_preview_js' );

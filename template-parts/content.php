@@ -13,6 +13,21 @@
         else :
             the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
         endif;
+
+        if ( 'post' === get_post_type() ) :
+            ?>
+            <div class="entry-meta" style="margin-bottom: 1em; color: #666; font-size: 0.9em;">
+                <?php
+                $categories_list = get_the_category_list( ', ' );
+                if ( $categories_list ) {
+                    echo wp_kses_post( $categories_list ) . ' | ';
+                }
+                echo '최초 작성일 : ' . esc_html( get_the_date( 'Y-m-d' ) ) . ' | ';
+                echo '마지막 수정일 : ' . esc_html( get_the_modified_date( 'Y-m-d' ) );
+                ?>
+            </div>
+            <?php
+        endif;
         ?>
     </header>
 
