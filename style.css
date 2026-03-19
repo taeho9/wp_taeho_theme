@@ -485,3 +485,73 @@ iframe.wp-embedded-content {
         padding-left: 15px;
     }
 }
+
+/* 페이지네이션 (Pagination) 스타일 */
+.pagination {
+    margin: 50px 0 20px;
+    text-align: center;
+    clear: both;
+}
+
+/* "게시물 네비게이션" 같은 스크린 리더용 텍스트 숨김 처리 */
+.pagination .screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.pagination .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px; /* 버튼 간 간격 */
+}
+
+.pagination .page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    background-color: #fff;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-numbers:hover,
+.pagination .page-numbers:focus {
+    background-color: #f1f1f1;
+    color: #333;
+    border-color: #ccc;
+}
+
+/* 현재 선택된 페이지 번호 강조 */
+.pagination .page-numbers.current {
+    background-color: #333;
+    color: #fff;
+    border-color: #333;
+    cursor: default;
+}
+
+/* 말줄임표 (...) 처리 */
+.pagination .page-numbers.dots {
+    border: none;
+    background: transparent;
+    color: #888;
+    min-width: auto;
+    padding: 0 4px;
+}
