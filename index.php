@@ -16,7 +16,10 @@ get_header();
             get_template_part( 'template-parts/content', get_post_type() );
         endwhile;
 
-        the_posts_navigation();
+        the_posts_pagination( array(
+            'prev_text' => __( '이전', 'taehos-light-core' ),
+            'next_text' => __( '다음', 'taehos-light-core' ),
+        ) );
     else :
         echo '<p>' . esc_html__( 'No content found.', 'taehos-light-core' ) . '</p>';
     endif;

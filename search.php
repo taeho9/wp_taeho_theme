@@ -121,9 +121,9 @@ get_header();
                     echo '</ul>';
 
                     // 페이지네이션
-                    the_posts_navigation( array(
-                        'prev_text' => __( '이전 페이지', 'taehos-light-core' ),
-                        'next_text' => __( '다음 페이지', 'taehos-light-core' ),
+                    the_posts_pagination( array(
+                        'prev_text' => __( '이전', 'taehos-light-core' ),
+                        'next_text' => __( '다음', 'taehos-light-core' ),
                     ) );
                 else :
                     echo '<p>' . esc_html__( '검색 결과가 없습니다.', 'taehos-light-core' ) . '</p>';
