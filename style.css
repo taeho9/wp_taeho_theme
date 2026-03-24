@@ -555,3 +555,52 @@ iframe.wp-embedded-content {
     min-width: auto;
     padding: 0 4px;
 }
+
+/* 플로팅 스크롤 네비게이션 */
+.floating-scroll-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 9999;
+}
+
+.scroll-btn {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(51, 51, 51, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-btn:hover {
+    background-color: rgba(0, 124, 186, 0.9);
+    transform: scale(1.1);
+}
+
+.scroll-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+@media (max-width: 768px) {
+    .floating-scroll-nav {
+        right: 10px;
+    }
+    .scroll-btn {
+        width: 35px;
+        height: 35px;
+    }
+}

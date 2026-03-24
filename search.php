@@ -126,7 +126,7 @@ get_header();
                         'next_text' => __( '다음', 'taehos-light-core' ),
                     ) );
                 else :
-                    echo '<p>' . esc_html__( '검색 결과가 없습니다.', 'taehos-light-core' ) . '</p>';
+                    get_template_part( 'template-parts/content', 'none' );
                 endif;
             }
             ?>

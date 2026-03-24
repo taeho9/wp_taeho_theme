@@ -21,7 +21,7 @@ get_header();
             'next_text' => __( '다음', 'taehos-light-core' ),
         ) );
     else :
-        echo '<p>' . esc_html__( 'No content found.', 'taehos-light-core' ) . '</p>';
+        get_template_part( 'template-parts/content', 'none' );
     endif;
     ?>
 </main>

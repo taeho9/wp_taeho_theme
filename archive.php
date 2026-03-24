@@ -50,14 +50,7 @@ get_header();
                 ?>
             </div>
         <?php else : ?>
-            <section class="no-results not-found">
-                <header class="page-header">
-                    <h1 class="page-title"><?php esc_html_e( '검색 결과가 없습니다.', 'taehos-light-core' ); ?></h1>
-                </header>
-                <div class="page-content">
-                    <p><?php esc_html_e( '찾으시는 태그나 카테고리에 해당하는 글이 없습니다.', 'taehos-light-core' ); ?></p>
-                </div>
-            </section>
+            <?php get_template_part( 'template-parts/content', 'none' ); ?>
         <?php endif; ?>
     </main><!-- #primary -->
 
