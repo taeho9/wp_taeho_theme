@@ -22,8 +22,10 @@
                 if ( $categories_list ) {
                     echo wp_kses_post( $categories_list ) . ' | ';
                 }
-                echo '최초 작성일 : ' . esc_html( get_the_date( 'Y-m-d' ) ) . ' | ';
-                echo '마지막 수정일 : ' . esc_html( get_the_modified_date( 'Y-m-d' ) );
+                echo '최초 작성일 : ' . esc_html( get_the_date( 'Y-m-d' ) );
+                if ( get_theme_mod( 'show_modified_date', true ) ) {
+                    echo ' | 마지막 수정일 : ' . esc_html( get_the_modified_date( 'Y-m-d' ) );
+                }
                 ?>
             </div>
             <?php

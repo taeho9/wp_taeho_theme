@@ -251,6 +251,38 @@ pre code,
     font-family: inherit;
 }
 
+/* 본문 태그 스타일 */
+.entry-tags {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid #eaeaea;
+}
+
+.entry-tags .tags-label {
+    font-weight: 700;
+    margin-right: 0.5em;
+    color: #007cba;
+    font-size: 0.95rem;
+}
+
+.entry-tags a {
+    display: inline-block;
+    background-color: #eef2f5;
+    color: #444;
+    padding: 5px 12px;
+    margin: 0 6px 6px 0;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+
+.entry-tags a:hover {
+    background-color: #007cba;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
 /* 워드프레스 내부 링크(Embed) 박스를 본문 폭에 맞춰 가로로 길게 표시 */
 figure.wp-block-embed,
 figure.wp-block-embed-wordpress {
@@ -597,7 +629,8 @@ iframe.wp-embedded-content {
 
 @media (max-width: 768px) {
     .floating-scroll-nav {
-        right: 10px;
+        right: auto;
+        left: calc(100vw - 45px);
     }
     .scroll-btn {
         width: 35px;
