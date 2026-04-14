@@ -62,6 +62,22 @@ function taeho_theme_customize_register( $wp_customize ) {
         ),
     ) );
 
+    // 태그/아카이브 페이지 표시 개수
+    $wp_customize->add_setting( 'archive_posts_per_page', array(
+        'default'           => 10,
+        'sanitize_callback' => 'absint',
+    ) );
+    $wp_customize->add_control( 'archive_posts_per_page', array(
+        'label'       => __( '태그/카테고리 페이지 표시 개수', 'taehos-light-core' ),
+        'section'     => 'taeho_layout_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 1,
+            'max'  => 50,
+            'step' => 1,
+        ),
+    ) );
+
     // 메뉴 설정 패널
     $wp_customize->add_section( 'taeho_menu_section', array(
         'title'      => __( 'Menu Settings', 'taehos-light-core' ),
@@ -286,6 +302,32 @@ function taeho_theme_customize_register( $wp_customize ) {
         'section'  => 'taeho_content_style_section',
     ) ) );
 
+    // 본문 하단 태그 표시 여부
+    $wp_customize->add_setting( 'show_post_tags', array(
+        'default'           => true,
+        'sanitize_callback' => function( $checked ) {
+            return ( ( isset( $checked ) && true == $checked ) ? true : false );
+        },
+    ) );
+    $wp_customize->add_control( 'show_post_tags', array(
+        'label'       => __( '본문 하단에 태그(Tag) 표시', 'taehos-light-core' ),
+        'section'     => 'taeho_content_style_section',
+        'type'        => 'checkbox',
+    ) );
+
+    // 본문 마지막 수정일 표시 여부
+    $wp_customize->add_setting( 'show_modified_date', array(
+        'default'           => true,
+        'sanitize_callback' => function( $checked ) {
+            return ( ( isset( $checked ) && true == $checked ) ? true : false );
+        },
+    ) );
+    $wp_customize->add_control( 'show_modified_date', array(
+        'label'       => __( '본문 마지막 수정일 표시', 'taehos-light-core' ),
+        'section'     => 'taeho_content_style_section',
+        'type'        => 'checkbox',
+    ) );
+
     // 검색 결과 설정 패널
     $wp_customize->add_section( 'taeho_search_section', array(
         'title'      => __( '검색 결과 설정', 'taehos-light-core' ),
@@ -304,6 +346,22 @@ function taeho_theme_customize_register( $wp_customize ) {
         'choices'     => array(
             'default'   => __( '기본 목록 표시 (제목/카테고리/날짜/요약)', 'taehos-light-core' ),
             'shortcode' => __( '플러그인 숏코드 연동', 'taehos-light-core' ),
+        ),
+    ) );
+
+    // 검색 결과 표시 개수
+    $wp_customize->add_setting( 'search_posts_per_page', array(
+        'default'           => 10,
+        'sanitize_callback' => 'absint',
+    ) );
+    $wp_customize->add_control( 'search_posts_per_page', array(
+        'label'       => __( '검색 결과 표시 개수', 'taehos-light-core' ),
+        'section'     => 'taeho_search_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min'  => 1,
+            'max'  => 50,
+            'step' => 1,
         ),
     ) );
 

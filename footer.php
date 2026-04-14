@@ -34,8 +34,49 @@
 </div><!-- #page -->
 
 <?php wp_footer(); ?>
+
+<div class="floating-scroll-nav">
+    <button class="scroll-btn scroll-top" aria-label="맨 위로" title="맨 위로">
+        <svg viewBox="0 0 24 24"><path d="M4 3v2h16V3H4zm4 8h3v10h2V11h3l-4-4-4 4z"/></svg>
+    </button>
+    <button class="scroll-btn scroll-page-up" aria-label="한 페이지 위로" title="한 페이지 위로">
+        <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </button>
+    <button class="scroll-btn scroll-page-down" aria-label="한 페이지 아래로" title="한 페이지 아래로">
+        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </button>
+    <button class="scroll-btn scroll-bottom" aria-label="맨 아래로" title="맨 아래로">
+        <svg viewBox="0 0 24 24"><path d="M16 13h-3V3h-2v10H8l4 4 4-4zm-12 6v2h16v-2H4z"/></svg>
+    </button>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 플로팅 스크롤 네비게이션 로직
+    var floatNav = document.querySelector('.floating-scroll-nav');
+    if (floatNav) {
+        var btnTop = floatNav.querySelector('.scroll-top');
+        var btnPageUp = floatNav.querySelector('.scroll-page-up');
+        var btnPageDown = floatNav.querySelector('.scroll-page-down');
+        var btnBottom = floatNav.querySelector('.scroll-bottom');
+
+        if (btnTop) btnTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        if (btnPageUp) btnPageUp.addEventListener('click', function() {
+            window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+        });
+
+        if (btnPageDown) btnPageDown.addEventListener('click', function() {
+            window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        });
+
+        if (btnBottom) btnBottom.addEventListener('click', function() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    }
+
     var navWrapper = document.querySelector('.main-navigation');
     var navUl = document.querySelector('.main-navigation ul');
 

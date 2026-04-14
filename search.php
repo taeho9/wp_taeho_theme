@@ -84,8 +84,13 @@ get_header();
                                 $content = get_the_content();
                                 $content = strip_shortcodes( $content );
                                 
-                                $allowed_tags = '<p><br><a><b><strong><i><em><code><pre><blockquote><ul><ol><li><span><mark>';
+                                // 단락 간 텍스트가 붙지 않도록 줄바꿈을 우선 공백으로 치환
+                                $content = str_replace( array( "\r\n", "\r", "\n" ), ' ', $content );
+                                
+                                // 줄바꿈을 유발하는 블록 태그(p, br, pre 등)를 제외한 인라인 태그만 허용
+                                $allowed_tags = '<a><b><strong><i><em><code><span><mark>';
                                 $content = strip_tags( $content, $allowed_tags );
+                                $content = preg_replace( '/\s+/', ' ', $content ); // 다중 공백을 하나로 압축
                                 
                                 // 글자 수(Characters) 기준으로 자르면서 HTML 태그 보존하기
                                 $excerpt = '';
@@ -111,8 +116,8 @@ get_header();
                                     $excerpt = $content;
                                 }
                                 
-                                // 열린 태그 닫기 및 단락(p) 처리
-                                echo wpautop( force_balance_tags( $excerpt ) );
+                                // 열린 태그 닫기 및 최종 요약글 출력
+                                echo '<p>' . force_balance_tags( trim( $excerpt ) ) . '</p>';
                                 ?>
                             </div><!-- .entry-summary -->
                         </li>
@@ -126,7 +131,7 @@ get_header();
                         'next_text' => __( '다음', 'taehos-light-core' ),
                     ) );
                 else :
-                    echo '<p>' . esc_html__( '검색 결과가 없습니다.', 'taehos-light-core' ) . '</p>';
+                    get_template_part( 'template-parts/content', 'none' );
                 endif;
             }
             ?>
